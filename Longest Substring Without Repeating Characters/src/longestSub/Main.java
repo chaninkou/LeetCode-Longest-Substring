@@ -3,7 +3,7 @@ package longestSub;
 public class Main {
 	public static void main(String[] args){
 		// Input
-		String input = "adbccba";
+		String input = "adbccbaef";
 		
 		System.out.println("Input: " + input);
 		
