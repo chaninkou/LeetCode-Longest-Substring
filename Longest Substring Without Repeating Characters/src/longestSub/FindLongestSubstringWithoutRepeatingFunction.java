@@ -16,8 +16,8 @@ public class FindLongestSubstringWithoutRepeatingFunction {
         // The longest substring
         int maxLength = 0;
         
-        // This will keep track the number of the longest character appear so far from the last repeated item
-        int numbersOfRepeatedSoFar = 0;
+        // This will keep track of total length from currentIndex, default is 0 since we do start from 0
+        int startIndexFromCurrentIndex = 0;
         
         for(int currentIndex = 0; currentIndex < s.length(); currentIndex++){
         	char currentElement = s.charAt(currentIndex);
@@ -25,7 +25,7 @@ public class FindLongestSubstringWithoutRepeatingFunction {
             // If the character is already in the map, add one to the value of the key
             if(map.containsKey(currentElement)){
             	// map.get(s.charAt(index)) + 1 to get the right length
-                numbersOfRepeatedSoFar = Math.max(numbersOfRepeatedSoFar, map.get(currentElement) + 1);
+            	startIndexFromCurrentIndex = Math.max(startIndexFromCurrentIndex, map.get(currentElement) + 1);
             }
             
             // Put the key and value in the map
@@ -34,7 +34,7 @@ public class FindLongestSubstringWithoutRepeatingFunction {
             
             // Getting the max sub string
             // + 1 since the index starts from 0
-            maxLength = Math.max(maxLength, currentIndex - numbersOfRepeatedSoFar + 1);
+            maxLength = Math.max(maxLength, currentIndex - startIndexFromCurrentIndex + 1);
         }
         
         return maxLength;
