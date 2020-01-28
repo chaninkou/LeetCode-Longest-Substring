@@ -1,7 +1,8 @@
 package longestSub;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 public class FindLongestSubstringWithoutRepeatingFunction {
 	public int lengthOfLongestSubstring(String s) {
@@ -39,6 +40,43 @@ public class FindLongestSubstringWithoutRepeatingFunction {
         
         return maxLength;
     }
+	
+	// Another way to do it with hashset
+	public int lengthOfLongestSubstring1(String s){
+		// Error checking
+		if(s.length() == 0 || s == null){
+			return 0;
+		}
+		
+		// Use hashset to see if another character appear
+		Set<Character> set = new HashSet<>();
+		
+		// start pointer and end pointer
+		int start = 0;
+		int end = 0;
+		
+		int max = 0;
+		
+		for(int i = 0; i < s.length(); i++){
+			// If its not in the set yet
+			if(!set.contains(s.charAt(end))){
+				// Keep adding the element
+				set.add(s.charAt(end));
+				
+				// update the pointer
+				end++;
+				
+				// Compare current hashset size and the previous max
+				max = Math.max(max, set.size());
+			} else { // This kind of just keep deleting the start index element until removing the current element that is appearing
+				set.remove(s.charAt(start));
+				start++;
+			}
+			
+		}
+			
+		return max;
+	}
 
 }
  
