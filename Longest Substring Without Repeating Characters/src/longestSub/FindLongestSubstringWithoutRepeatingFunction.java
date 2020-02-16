@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class FindLongestSubstringWithoutRepeatingFunction {
+	// Sliding window method using hashmap
 	public int lengthOfLongestSubstring(String s) {
         // If the string is empty, then there is no substring
         if(s.length() == 0 || s == null){
@@ -17,65 +18,78 @@ public class FindLongestSubstringWithoutRepeatingFunction {
         // The longest substring
         int maxLength = 0;
         
-        // This will keep track of total length from currentIndex, default is 0 since we do start from 0
-        int startIndexFromCurrentIndex = 0;
+        // Start pointer
+        int start = 0;
         
-        for(int currentIndex = 0; currentIndex < s.length(); currentIndex++){
-        	char currentElement = s.charAt(currentIndex);
+        for(int end = 0; end < s.length(); end ++){
+        	// If it is a duplicates, move the start pointer
+        	if(map.containsKey(end)){
+        		// Make sure the start does not get smaller
+        		start = Math.max(start, map.get(end) + 1);
+        	}
         	
-            // If the character is already in the map, add one to the value of the key
-            if(map.containsKey(currentElement)){
-            	// map.get(s.charAt(index)) + 1 to get the right length
-            	startIndexFromCurrentIndex = Math.max(startIndexFromCurrentIndex, map.get(currentElement) + 1);
-            }
-            
-            // Put the key and value in the map
-            // If the key already in it, we will also replace the index with second one that appear and so on
-            map.put(currentElement, currentIndex);
-            
-            // Getting the max sub string
-            // + 1 since the index starts from 0
-            maxLength = Math.max(maxLength, currentIndex - startIndexFromCurrentIndex + 1);
+        	// update the index of the key no matter what
+        	map.put(s.charAt(end), end);
+        	
+        	// end - start + 1 will get the maximum length
+        	maxLength = Math.max(maxLength, end - start + 1);
         }
         
         return maxLength;
     }
 	
-	// Another way to do it with hashset
+	// Sliding window method without hashmap using array[128]
+	public int lengthOfLongestSubstring2(String s) {
+        // If the string is empty, then there is no substring
+        if(s.length() == 0 || s == null){
+            return 0;
+        }
+        
+        // 128 since there might have caps abc too
+        int[] store = new int[128];
+        
+        // The longest substring
+        int maxLength = 0;
+        
+        // Start pointer
+        int start = 0;
+        
+        for(int end = 0; end < s.length(); end ++){
+        	// start will be zero at first, unless there is a duplicate
+        	start = Math.max(start, store[s.charAt(end)]);
+        	
+        	// update the index of current element, + 1 since we want the start to be next element
+        	store[s.charAt(end)] = end + 1;
+        	
+        	// end - start + 1 will get the maximum length
+        	maxLength = Math.max(maxLength, end - start + 1);
+        }
+        
+        return maxLength;
+    }
+	
+	// Another way to do it with hashset, slower way
 	public int lengthOfLongestSubstring1(String s){
-		// Error checking
-		if(s.length() == 0 || s == null){
-			return 0;
-		}
-		
-		// Use hashset to see if another character appear
-		Set<Character> set = new HashSet<>();
-		
-		// start pointer and end pointer
-		int start = 0;
-		int end = 0;
-		
-		int max = 0;
-		
-		for(int i = 0; i < s.length(); i++){
-			// If its not in the set yet
-			if(!set.contains(s.charAt(end))){
-				// Keep adding the element
-				set.add(s.charAt(end));
-				
-				// update the pointer
-				end++;
-				
-				// Compare current hashset size and the previous max
-				max = Math.max(max, set.size());
-			} else { // This kind of just keep deleting the start index element until removing the current element that is appearing
-				set.remove(s.charAt(start));
-				start++;
-			}
-			
-		}
-			
-		return max;
+
+        Set<Character> set = new HashSet<>();
+        
+        int max = 0, start = 0, end = 0;
+        
+        while (start < s.length() && end < s.length()) {
+            // try to extend the range [i, j]
+            if (!set.contains(s.charAt(end))){
+                set.add(s.charAt(end));
+                
+                end++;
+                
+                max = Math.max(max, end - start);
+            }
+            else {
+                set.remove(s.charAt(start));
+                start++;
+            }
+        }
+        return max;
 	}
 
 }
