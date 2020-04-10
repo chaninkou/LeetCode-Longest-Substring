@@ -45,7 +45,7 @@ public class FindLongestSubstringWithoutRepeatingFunction {
             return 0;
         }
         
-        // 128 since there might have caps abc too
+        // 128 since there might have uppercase too
         int[] store = new int[128];
         
         // The longest substring
@@ -85,7 +85,10 @@ public class FindLongestSubstringWithoutRepeatingFunction {
                 max = Math.max(max, end - start);
             }
             else {
+            	// Since this is a while loop, will keep removing the hashset from index 0 until there is no duplicates
                 set.remove(s.charAt(start));
+                
+                // Update start at the same time
                 start++;
             }
         }
