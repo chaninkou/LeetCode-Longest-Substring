@@ -1,4 +1,4 @@
-package longestSub;
+package leetcode3;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -55,7 +55,7 @@ public class FindLongestSubstringWithoutRepeatingFunction {
         int start = 0;
         
         for(int end = 0; end < s.length(); end ++){
-        	// start will be zero at first, unless there is a duplicate
+        	// start will only change when we see duplicates
         	start = Math.max(start, store[s.charAt(end)]);
         	
         	// update the index of current element, + 1 since we want the start to be next element
