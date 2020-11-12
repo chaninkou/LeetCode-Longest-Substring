@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class FindLongestSubstringWithoutRepeatingFunction {
-	// Sliding window method using hashmap
+	// Sliding window method using HashMap, O(N) time but uses containskey method
 	public int lengthOfLongestSubstring(String s) {
         // If the string is empty, then there is no substring
         if(s.length() == 0 || s == null){
